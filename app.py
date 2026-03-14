@@ -1,8 +1,4 @@
-"""
-app.py — Interface Streamlit pour le RAG ChatPDF local
-Auteur : Khadija
-Description : Upload PDF, indexation, chat Q&A avec Ollama + LangChain + ChromaDB
-"""
+
 
 import os
 import tempfile
@@ -23,21 +19,21 @@ from vector import (
     EMBED_MODEL,
 )
 
-# ─── Configuration Streamlit ─────────────────────────────────────────────────
+#  Configuration Streamlit 
 
 st.set_page_config(
     page_title="RAG ChatPDF — Local",
-    page_icon="📚",
+    page_icon="",
     layout="wide",
 )
 
-# ─── Constantes ──────────────────────────────────────────────────────────────
+#  Constantes 
 
 LLM_MODEL     = "mistral"   # Modèle Ollama pour la génération (ou "llama3", "qwen2.5")
 LLM_TEMP      = 0.2         # Température : bas = plus déterministe
 TOP_K_CHUNKS  = 4           # Nombre de chunks récupérés par requête
 
-# ─── Prompt RAG ──────────────────────────────────────────────────────────────
+#  Prompt RAG 
 
 RAG_PROMPT_TEMPLATE = """Tu es un assistant expert qui répond aux questions en te basant UNIQUEMENT sur le contexte fourni.
 Si la réponse ne se trouve pas dans le contexte, dis clairement que tu ne sais pas — ne génère pas de réponse inventée.
@@ -55,7 +51,7 @@ RAG_PROMPT = PromptTemplate(
     input_variables=["context", "question"],
 )
 
-# ─── Initialisation de l'état de session ─────────────────────────────────────
+#  Initialisation de l'état de session 
 
 if "messages"      not in st.session_state: st.session_state.messages      = []
 if "vector_store"  not in st.session_state: st.session_state.vector_store  = None
@@ -63,7 +59,7 @@ if "pdf_name"      not in st.session_state: st.session_state.pdf_name      = Non
 if "qa_chain"      not in st.session_state: st.session_state.qa_chain      = None
 
 
-# ─── Helpers ─────────────────────────────────────────────────────────────────
+#  Helpers 
 
 @st.cache_resource(show_spinner=False)
 def get_llm():
@@ -92,22 +88,22 @@ def answer_question(question: str) -> dict:
     return result
 
 
-# ─── UI ──────────────────────────────────────────────────────────────────────
+#  UI 
 
-# ── Sidebar ──────────────────────────────────────────────────────────────────
+#  Sidebar 
 with st.sidebar:
-    st.title("📚 RAG ChatPDF")
+    st.title(" RAG ChatPDF")
     st.caption("Local · LangChain · Ollama · ChromaDB")
     st.divider()
 
     # Infos modèles
     st.markdown("**Modèles actifs**")
-    st.markdown(f"- 🤖 LLM : `{LLM_MODEL}`")
-    st.markdown(f"- 🧠 Embedding : `{EMBED_MODEL}`")
+    st.markdown(f"- LLM : `{LLM_MODEL}`")
+    st.markdown(f"- Embedding : `{EMBED_MODEL}`")
     st.divider()
 
     # Upload PDF
-    st.markdown("**📄 Charger un PDF**")
+    st.markdown("**Charger un PDF**")
     uploaded_file = st.file_uploader(
         label="Glisse ton PDF ici",
         type=["pdf"],
@@ -117,9 +113,9 @@ with st.sidebar:
     if uploaded_file:
         col1, col2 = st.columns(2)
         with col1:
-            index_btn = st.button("🔄 Indexer", use_container_width=True, type="primary")
+            index_btn = st.button("Indexer", use_container_width=True, type="primary")
         with col2:
-            reset_btn = st.button("🗑️ Reset", use_container_width=True)
+            reset_btn = st.button(" Reset", use_container_width=True)
 
         if index_btn:
             # Sauvegarde temporaire
@@ -134,7 +130,7 @@ with st.sidebar:
                     st.session_state.pdf_name     = uploaded_file.name
                     st.session_state.qa_chain     = build_qa_chain(vs)
                     st.session_state.messages     = []
-                    st.success(f"✅ {uploaded_file.name} indexé !")
+                    st.success(f"{uploaded_file.name} indexé !")
                 except Exception as e:
                     st.error(f"Erreur : {e}")
                 finally:
@@ -151,8 +147,8 @@ with st.sidebar:
 
     # Charger base existante
     if vector_store_exists() and st.session_state.vector_store is None:
-        st.markdown("**💾 Base existante détectée**")
-        if st.button("⚡ Charger la base", use_container_width=True):
+        st.markdown("**Base existante détectée**")
+        if st.button("Charger la base", use_container_width=True):
             with st.spinner("Chargement..."):
                 vs = load_vector_store()
                 if vs:
@@ -164,7 +160,7 @@ with st.sidebar:
     # Infos collection
     info = get_collection_info()
     if info["exists"]:
-        st.markdown("**📊 Collection ChromaDB**")
+        st.markdown("** Collection ChromaDB**")
         st.metric("Vecteurs indexés", info["count"])
         st.caption(f"Chunk : {info['chunk_size']}t / overlap : {info['chunk_overlap']}t")
 
@@ -175,13 +171,13 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
-# ── Zone principale ───────────────────────────────────────────────────────────
-st.title("💬 RAG ChatPDF — Assistant local")
+#  Zone principale 
+st.title(" RAG ChatPDF — Assistant local")
 
 if st.session_state.pdf_name:
-    st.info(f"📄 Document actif : **{st.session_state.pdf_name}** · {TOP_K_CHUNKS} chunks récupérés par requête")
+    st.info(f" Document actif : **{st.session_state.pdf_name}** · {TOP_K_CHUNKS} chunks récupérés par requête")
 else:
-    st.warning("⚠️ Aucun document indexé. Charge un PDF dans le panneau de gauche.")
+    st.warning(" Aucun document indexé. Charge un PDF dans le panneau de gauche.")
 
 st.divider()
 
@@ -191,7 +187,7 @@ for msg in st.session_state.messages:
         st.markdown(msg["content"])
         # Afficher les sources si disponibles
         if msg["role"] == "assistant" and "sources" in msg:
-            with st.expander("📎 Sources utilisées"):
+            with st.expander("Sources utilisées"):
                 for i, src in enumerate(msg["sources"], 1):
                     page = src.metadata.get("page", "?")
                     chunk_idx = src.metadata.get("chunk_index", "?")
@@ -221,10 +217,10 @@ if question:
         sources  = result.get("source_documents", [])
 
         st.markdown(answer)
-        st.caption(f"⏱️ {elapsed:.1f}s · {len(sources)} chunk(s) utilisé(s)")
+        st.caption(f" {elapsed:.1f}s · {len(sources)} chunk(s) utilisé(s)")
 
         if sources:
-            with st.expander("📎 Sources utilisées"):
+            with st.expander(" Sources utilisées"):
                 for i, src in enumerate(sources, 1):
                     page = src.metadata.get("page", "?")
                     chunk_idx = src.metadata.get("chunk_index", "?")
