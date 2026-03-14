@@ -1,0 +1,25 @@
+# Base vectorielle (lourde, ne pas versionner)
+chroma_db/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Fichiers temporaires
+*.tmp
+*.log
+temp_pdfs/
+
+# OS
+.DS_Store
+Thumbs.db
