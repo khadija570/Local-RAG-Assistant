@@ -1,11 +1,11 @@
-# 📚 RAG ChatPDF — Local
+#  RAG ChatPDF — Local
 
 Assistant Q&A sur tes PDF, 100% local.  
 Stack : **LangChain · Ollama · ChromaDB · Streamlit**
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 PDF
@@ -20,85 +20,83 @@ PDF
                 └── Génération (Mistral via Ollama)
 ```
 
-## 🚀 Installation
+## Installation
 
-### 1. Cloner le repo
+### 1. Clone the repository
 ```bash
-git clone https://github.com/TON_USERNAME/TON_REPO.git
-cd TON_REPO
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
 ```
 
-### 2. Environnement virtuel
+### 2. virtuel Environment
 ```bash
 python -m venv venv
 source venv/bin/activate        # Linux / Mac
 # venv\Scripts\activate         # Windows
 ```
 
-### 3. Installer les dépendances
+### 3.Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Installer et lancer Ollama
+### 4. Install and run Ollama
 ```bash
-# Installer Ollama : https://ollama.com/download
-ollama pull mistral              # LLM pour la génération
-ollama pull nomic-embed-text     # Modèle d'embedding
+# Install Ollama : https://ollama.com/download
+ollama pull mistral              # LLM for the generation
+ollama pull nomic-embed-text     # Embedding model
 ```
 
-### 5. Lancer l'application
+### 5. Run the application
 ```bash
 streamlit run app.py
 ```
 
 ---
 
-## 📁 Structure du projet
+##  Project Structure
 
 ```
 ├── app.py            # Interface Streamlit + chaîne RAG
 ├── vector.py         # Chunking, embedding, ChromaDB
 ├── requirements.txt  # Dépendances Python
-├── .gitignore        # Exclut chroma_db/ et venv/
+├── .gitignore        # Exclut chroma_db/ and venv/
 └── README.md
 ```
 
-> **Note :** Le dossier `chroma_db/` est exclu du dépôt (`.gitignore`).  
-> Il se crée automatiquement à la première indexation d'un PDF.
+> **Note :** the chroma_db/ folder is excluded from the repository (.gitignore).
+It is automatically created when a PDF is indexed for the first time.
 
 ---
 
-## 💬 Utilisation
+## 💬 Usage
 
-1. Ouvre `http://localhost:8501` dans ton navigateur
-2. Glisse ton PDF dans le panneau gauche → clique **Indexer**
-3. Pose tes questions dans le chat !
+1. Open `http://localhost:8501` On your Browser
+2.Drag your PDF into the left panel → click **Index**
+3. Ask your questions in the chat.
 
-**Questions de test avec `rag_test_document_AI.pdf` :**
-- *"Qu'est-ce que le RAG ?"*
-- *"Quelle est la différence entre Précision et Recall ?"*
-- *"Quels outils open-source utiliser pour un RAG local ?"*
-- *"Comment fonctionnent les Transformers ?"*
-- *"Qu'est-ce que l'AI Act ?"*
+**Test Questions with `rag_test_document_AI.pdf` :**
+- *"What is RAG ?"*
+- *"What is the difference between Racall and precision ?"*
+- *"Which open-source tools can be used for a local RAG?"*
+- *"How do Transformers work?"*
+- *"What is the AI act?"*
 
 ---
 
-## ⚙️ Configuration
+##  Configuration
 
-Dans `app.py` et `vector.py`, tu peux modifier :
+In `app.py` and `vector.py`, you can modify :
 
-| Paramètre | Valeur par défaut | Description |
+| Parameter | Default value| Description |
 |-----------|------------------|-------------|
-| `LLM_MODEL` | `mistral` | Modèle Ollama (llama3, qwen2.5...) |
-| `LLM_TEMP` | `0.2` | Température de génération |
-| `EMBED_MODEL` | `nomic-embed-text` | Modèle d'embedding |
-| `CHUNK_SIZE` | `500` | Taille des chunks |
-| `CHUNK_OVERLAP` | `50` | Overlap entre chunks |
-| `TOP_K_CHUNKS` | `4` | Chunks récupérés par requête |
+| `LLM_MODEL` | `mistral` | Ollama Model (llama3, qwen2.5...) |
+| `LLM_TEMP` | `0.2` | Generation Temperature |
+| `EMBED_MODEL` | `nomic-embed-text` | Embedding Model |
+| `CHUNK_SIZE` | `500` | Chunks size |
+| `CHUNK_OVERLAP` | `50` | Overlap between chunks |
+| `TOP_K_CHUNKS` | `4` | Number of retrieved chunks per query |
 
 ---
 
-## 👩‍💻 Auteur
 
-Khadija — ENSA Agadir · Data Science & IA
