@@ -1,8 +1,4 @@
-"""
-vector.py — Gestion des embeddings et de la base vectorielle ChromaDB
-Auteur : Khadija
-Description : Chargement PDF, chunking, embedding via Ollama, stockage ChromaDB
-"""
+
 
 import os
 import shutil
@@ -19,17 +15,17 @@ from langchain_chroma import Chroma
 CHROMA_DB_DIR   = "./chroma_db"          # Répertoire de persistance ChromaDB
 COLLECTION_NAME = "rag_pdf_collection"   # Nom de la collection
 EMBED_MODEL     = "nomic-embed-text"     # Modèle d'embedding Ollama
-CHUNK_SIZE      = 500                    # Taille des chunks (tokens approximatifs)
+CHUNK_SIZE      = 500                    # Taille des chunks 
 CHUNK_OVERLAP   = 50                     # Overlap entre chunks
 
-# ─── Initialisation des embeddings ───────────────────────────────────────────
+#  Initialisation des embeddings 
 
 def get_embeddings() -> OllamaEmbeddings:
     """Retourne le modèle d'embedding Ollama configuré."""
     return OllamaEmbeddings(model=EMBED_MODEL)
 
 
-# ─── Chargement et découpage du PDF ──────────────────────────────────────────
+#  Chargement et découpage du PDF 
 
 def load_and_split_pdf(pdf_path: str) -> List:
     """
@@ -69,7 +65,7 @@ def load_and_split_pdf(pdf_path: str) -> List:
     return chunks
 
 
-# ─── Gestion de la base vectorielle ──────────────────────────────────────────
+#  Gestion de la base vectorielle
 
 def build_vector_store(chunks: List, reset: bool = False) -> Chroma:
     """
@@ -138,7 +134,7 @@ def get_retriever(vector_store: Chroma, k: int = 4):
     )
 
 
-# ─── Utilitaires ─────────────────────────────────────────────────────────────
+#  Utilitaires 
 
 def vector_store_exists() -> bool:
     """Vérifie si une base vectorielle existe déjà sur le disque."""
