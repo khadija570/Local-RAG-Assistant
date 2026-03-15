@@ -69,7 +69,7 @@ It is automatically created when a PDF is indexed for the first time.
 
 ---
 
-## 💬 Usage
+## Usage
 
 1. Open `http://localhost:8501` On your Browser
 2.Drag your PDF into the left panel → click **Index**
